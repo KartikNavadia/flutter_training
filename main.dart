@@ -1,89 +1,102 @@
-import 'dart:math';
-import 'datatypes.dart';
-import 'factorial.dart';
-import 'palindrome_no.dart';
-import 'perfect_square_no.dart';
-import 'prime_number.dart';
-import 'string_concatenate.dart';
+import 'dart:io';
 
-void main(List<String> args) {
-  /// 1).
-  // assert(args == 2);
-  // var words = args[0].split(' ');
-  // List<String> reverseList = [];
-  // for (int i = 0; i < words.length; i++) {
-  //   var rev = reverse(words[i]);
-  //   reverseList.add(rev);
-  // }
-  // print('String is ${reverseList.join(' ')}');
+import 'user.dart';
 
-  /// 2).
-  // assert(args == 2);
-  // var firstNumber = double.tryParse(args[0]);
-  // var secondNumber = double.tryParse(args[1]);
-  // print('Addition is ${add(firstNumber,secondNumber)}');
-  // print('Subtraction is ${sub(firstNumber,secondNumber)}');
-  // print('Multiplication is ${mul(firstNumber,secondNumber)}');
-  // print('Division is ${div(firstNumber,secondNumber)}');
+/// We have add no of Student and Details of the students
+/// Than we have to use the functionalities like print, Update and Compare
+/// Today Input will be given by the user
 
-  /// 3.1). Prime Number
-  // var number = int.parse(args[0]);
-  // if(isPrimeNumber(number))
-  //   print("It is a prime number");
-  // else
-  //   print("It is not a prime number");
+void main(){
+  /// It is using Record without Class
+      // var studentRecord = (1,'Kartik',23,'O+');
+      // print('First Record');
+      // display(studentRecord);
+      // var updatedRecord = updateRecord(studentRecord);
+      // print('Updated Record:');
+      // display(updatedRecord);
+      // var studentRecord2 = (1,'Kartik',15,'B');
+      // print('Second Record');
+      // display(studentRecord2);
+      // compare(updatedRecord,studentRecord2);
 
-  ///3.2). perfect square
-  //   assert(args==1);
-  //   int number = int.parse(args[0]);
-  //   if(isPerfectSquare(number)){
-  //     print('Number is perfect Square');
-  //   }
-  //   else{
-  //     print('Number is not perfect Square');
-  //   }
+  /// It is using Class
+  List<Student> studentList=[];
 
-  /// 3.3).
-
-  // if(isPalindromeNumber(number)){
-  //   print('It is palindrome number');
-  // }else{
-  //   print('Not a palindrome number');
-  // }
-
-  /// 4). Finding the factorial of given number
-  // assert(args == 1);
-  // print(factorial(int.parse(args[0])));
-
-  ///5). Demonstrate all data types using class
-  assert(args == 4);
-  int a = int.parse(args[0]);
-  double b = double.parse(args[1]);
-  String c = args[2];
-  bool isWorking = args[3].toLowerCase() == 'true';
-
-  List lst = [a, b, c, isWorking];
-  print("List: $lst");
-
-  Map<String, dynamic> map = {
-    'Age': a,
-    'Salary': b,
-    'Name': c,
-    'work': isWorking
-  };
-  print("Map: $map");
-
-  DataTypes add = DataTypes(a, b, c, isWorking);
-  add.viewDetail();
-
-  /// 6).Concatenate alternate character or reverse two strings
-  // String s1 = args[0];
-  // String s2 = args[1];
-  // String s3 = args[2];
-  // concatenate(s1, s2, s3);
-
+  while(true){
+    var choice;
+    print('1. Input Data');
+    print('2. Print Data');
+    print('3. Update Data');
+    print('4. Compare Data');
+    print('5. Exit');
+    print('Enter your choice: ');
+    choice = int.parse(stdin.readLineSync()!);
+    switch(choice){
+      case 1:
+        studentList = inputData();
+        break;
+      case 2:
+        for(var i=0;i<studentList.length;i++) {
+          studentList[i].displayStudentInfo();
+        }
+        break;
+      case 3:
+        print('Enter id no of which record do you want to Update');
+        var updateId = int.parse(stdin.readLineSync()!);
+        for(var i=0;i<studentList.length;i++){
+          if(studentList[i].id==updateId){
+            studentList[i].updateStudentInfo();
+          }
+          else{
+            print('Update Id is $updateId');
+          }
+        }
+        break;
+      case 4:
+        print('Enter First Id to Compare');
+        int id1 = int.parse(stdin.readLineSync()!);
+        print('Enter Second Id to Compare');
+        int id2 = int.parse(stdin.readLineSync()!);
+        if(studentList[id1-1].name==studentList[id2-1].name){
+          print('Name of Student id $id1 and Student id $id2 are Same');
+        }else{
+          print('Not Match');
+        }
+        if(studentList[id1-1].age==studentList[id2-1].age){
+          print('Age of Student id $id1 and Student id $id2 are Same');
+        }else{
+          print('Not Match');
+        }
+        if(studentList[id1-1].grade==studentList[id2-1].grade){
+          print('Grade of Student id $id1 and Student id $id2 are Same');
+        }else{
+          print('Not Match');
+        }
+        break;
+      case 5:
+        exit(0);
+        break;
+      default:
+        print('Enter proper choice');
+    }
+  }
 }
 
-
-
-
+List<Student> inputData(){
+  print('How many Student Data do you want to add');
+  var noOfStudent = int.parse(stdin.readLineSync()!);
+  List<Student> studentList =[];
+  for(var i=0;i<noOfStudent;i++){
+    print('Enter Student Id:');
+    int id = int.parse(stdin.readLineSync()!);
+    print('Enter Student Name:');
+    String name = stdin.readLineSync()!;
+    print('Enter Student Age:');
+    int age = int.parse(stdin.readLineSync()!);
+    print('Enter Student Grade');
+    String grade = stdin.readLineSync()!;
+    Student studentObj = Student(id:id,name:name,age:age,grade:grade);
+    studentList.add(studentObj);
+  }
+  return studentList;
+}
